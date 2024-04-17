@@ -1,0 +1,60 @@
+﻿<Page x:Class="client.AddPostPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:client"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AddPostPage">
+
+    <Grid>
+        <!-- Main Content Area -->
+        <StackPanel Margin="10">
+            <!-- Step 1: Adding a text description -->
+            <StackPanel x:Name="txtDescriptionPanel" Margin="0,0,0,20">
+                <Label Content="Step 1: Adding a text description" FontWeight="Bold"/>
+                <TextBox x:Name="txtDescription" Text="" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto" Margin="0,5,0,10"/>
+                <Button Content="Next" Width="100" Height="40" Click="NextButton_Click"/>
+            </StackPanel>
+
+            <!-- Step 2: Uploading media -->
+            <StackPanel x:Name="mediaUploadPanel" Margin="0,0,0,20" Visibility="Collapsed">
+                <Label Content="Step 2: Uploading media" FontWeight="Bold"/>
+                <Button Content="Upload Media" Width="150" Height="40" Click="UploadMediaButton_Click"/>
+                <Image x:Name="imagePreview" Width="200" Height="200" Margin="0,10,0,10" Visibility="Collapsed"/>
+                <Button Content="Next" Width="100" Height="40" Click="NextButton2_Click"/>
+            </StackPanel>
+
+            <!-- Step 3: Selecting physical location -->
+            <StackPanel x:Name="locationPanel" Margin="0,0,0,20" Visibility="Collapsed">
+                <Label Content="Step 3: Selecting physical location" FontWeight="Bold"/>
+                <TextBox x:Name="txtLocationSearch" Text="" Height="30" Margin="0,5,0,10" KeyUp="LocationSearchTextBox_KeyUpAsync"/>
+                <ComboBox x:Name="locationDropdown" Width="200" Height="30" Margin="0,0,0,10" Visibility="Collapsed" SelectionChanged="LocationDropdown_SelectionChanged"/>
+                <Button Content="Next" Width="100" Height="40" Click="NextButton3_Click"/>
+            </StackPanel>
+
+
+            <!-- Step 4: Mentioning users -->
+            <StackPanel x:Name="mentionPanel" Margin="0,0,0,20" Visibility="Collapsed">
+                <Label Content="Step 4: Mentioning users" FontWeight="Bold"/>
+                <TextBox x:Name="txtUserSearch" Text="" Height="30" Margin="0,5,0,10" KeyUp="UserSearchTextBox_KeyUp"/>
+                <ListBox x:Name="userSearchListBox" SelectionMode="Multiple" Margin="0,5,0,10" SelectionChanged="UserSearchListBox_SelectionChanged"/>
+                <Label Content="Selected Users" FontWeight="Bold" Margin="0,10,0,5"/>
+                <ListBox x:Name="selectedUsersListBox" Margin="0,0,0,10"/>
+                <Button Content="Next" Width="100" Height="40" Click="NextButton4_Click"/>
+            </StackPanel>
+
+
+
+
+
+
+            <!-- Step 5: Posting -->
+            <StackPanel x:Name="postPanel" Margin="0,0,0,20" Visibility="Collapsed">
+                <Label Content="Step 5: Posting" FontWeight="Bold"/>
+                <Button Content="Post" Width="100" Height="40" Click="PostButton_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

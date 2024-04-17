@@ -1,0 +1,36 @@
+﻿<Window x:Class="client.ReportModalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:client"
+        mc:Ignorable="d"
+        Title="ReportModalWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Text="Social App" FontSize="24" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top"/>
+
+        <!-- Content -->
+        <StackPanel Grid.Row="1" Margin="10">
+            <TextBlock Text="Enter Reason for Report:"/>
+            <ComboBox HorizontalAlignment="Left" x:Name="ReasonComboBox" Width="150"
+                      SelectionChanged="ReasonComboBox_SelectionChanged">
+                <ComboBoxItem Content="Abusive"/>
+                <ComboBoxItem Content="Foul language"/>
+                <ComboBoxItem Content="Racism"/>
+                <ComboBoxItem Content="Sexual content"/>
+            </ComboBox>
+            <TextBox x:Name="ReasonTextBox" Text="Please describe your reason" Margin="0,5,0,10"/>
+
+            <!-- Dropdown with options -->
+
+            <!-- Submit Button -->
+            <Button Content="Submit" Click="SubmitButton_Click" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</Window>

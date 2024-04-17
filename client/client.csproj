@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Properties\Resources.Designer.cs" />
+    <Compile Remove="Properties\Settings.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Properties\Resources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="img\default-profile-picture.png" />
+    <None Remove="img\post-picture.jpg" />
+    <None Remove="img\profile-picture.jpg" />
+    <None Remove="Properties\Settings.settings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\default-profile-picture.png" />
+    <Resource Include="img\post-picture.jpg" />
+    <Resource Include="img\profile-picture.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="modules\" />
+    <Folder Include="repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Serilog" Version="3.1.1" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.6.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.3" />
+ </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+  </ItemGroup>
+
+   
+
+</Project>
