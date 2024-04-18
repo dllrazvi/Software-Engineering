@@ -8,31 +8,38 @@ using client.repositories;
 
 namespace client.services
 {
-    internal class PostArchivedService
+    internal interface IPostArchivedService
     {
-        PostArchivedRepository postArchivedRepository;
+        bool addPostArchived(PostArchived postArchived);
+        List<PostArchived> getPostArchivedList();
+        bool removePostArchived(PostArchived postArchived);
+    }
 
-        public PostArchivedService(PostArchivedRepository _postArchivedRepository)
+    internal class PostArchivedService : IPostArchivedService
+    {
+        IPostArchivedRepository postArchivedRepository;
+
+        public PostArchivedService(IPostArchivedRepository _postArchivedRepository)
         {
             postArchivedRepository = _postArchivedRepository;
         }
 
         public bool addPostArchived(PostArchived postArchived)
         {
-         
-        
+
+
             return postArchivedRepository.addPostArchivedToDB(postArchived);
         }
 
         public bool removePostArchived(PostArchived postArchived)
         {
-          return postArchivedRepository.removePostArchivedFromDB(postArchived);
+            return postArchivedRepository.removePostArchivedFromDB(postArchived);
         }
 
 
         public List<PostArchived> getPostArchivedList()
         {
-            return postArchivedRepository.getAll(); 
+            return postArchivedRepository.getAll();
         }
 
 

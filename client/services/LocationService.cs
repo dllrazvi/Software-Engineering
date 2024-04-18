@@ -9,11 +9,17 @@ using client.repositories;
 
 namespace client.services
 {
-    internal class LocationService
+    internal interface ILocationService
     {
-        private LocationRepository _locationRepository;
+        Task<Location> GetLocationById(string locationId);
+        Task<List<Location>> SearchLocations(string querry);
+    }
 
-        public LocationService(LocationRepository locationRepository)
+    internal class LocationService : ILocationService
+    {
+        private ILocationRepository _locationRepository;
+
+        public LocationService(ILocationRepository locationRepository)
         {
             _locationRepository = locationRepository;
         }
@@ -23,9 +29,9 @@ namespace client.services
             return await _locationRepository.GetLocationDetails(locationId);
         }
 
-		public async Task<List<Location>> SearchLocations(String querry)
-		{
-			return await _locationRepository.SearchLocations(querry);
-		}
-	}
+        public async Task<List<Location>> SearchLocations(String querry)
+        {
+            return await _locationRepository.SearchLocations(querry);
+        }
+    }
 }

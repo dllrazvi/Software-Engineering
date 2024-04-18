@@ -8,111 +8,129 @@ using System.Threading.Tasks;
 
 namespace client.services
 {
-	internal class PostsService
-	{
-		private PostsRepository repository;
-		public PostsService(PostsRepository _repository) {
-			repository = _repository;
+    internal interface IPostsService
+    {
+        bool addMentionToPost(Guid postID, Guid userID);
+        bool addPost(Guid owner_user_id, string? description, List<Guid> mentionedUsers, Guid commented_post_id, Guid original_post_id, string? path, int post_type, string? location_id);
+        bool addReactionToPost(Guid postID, Guid userID, int reactionType);
+        List<Post> getAllPosts();
+        List<Post> getAllPostsFromLocation(string location_id);
+        Post getPostById(Guid postId);
+        int getPostLikeCount(Guid postID);
+        bool removePost(Guid post_id);
+        bool removeReactionToPost(Guid postID, Guid userID);
+        bool updateDescription(Guid post_id, string newDescription);
+        bool updateLocation(Guid post_id, string newLocationID);
+    }
 
-		}
+    internal class PostsService : IPostsService
+    {
+        private IPostsRepository repository;
+        public PostsService(IPostsRepository _repository)
+        {
+            repository = _repository;
 
-		public bool addPost(Guid owner_user_id,String? description,List<Guid> mentionedUsers,Guid commented_post_id,Guid original_post_id,String? path, int post_type,String? location_id)
-		{
-			Media media = null;
-			if (post_type == 1)
-			{
-				media = new PhotoMedia(path);
-			}
-			else if (post_type == 2)
-			{
-				media = new VideoMedia(path);
-			}
-			Post newPost = new Post(Guid.NewGuid(),description,owner_user_id,mentionedUsers,commented_post_id,original_post_id,media,post_type,location_id,DateTime.Now);
+        }
 
-			if(repository.addPostToDB(newPost))
-			{
-				if(mentionedUsers.Count > 0)
-				{
-					mentionedUsers.ForEach(user =>
-					{
-						addMentionToPost(newPost.id,user);
-					});
-				}
-				return true;
-			}
-			return false;
-		}
+        public bool addPost(Guid owner_user_id, String? description, List<Guid> mentionedUsers, Guid commented_post_id, Guid original_post_id, String? path, int post_type, String? location_id)
+        {
+            Media media = null;
+            if (post_type == 1)
+            {
+                media = new PhotoMedia(path);
+            }
+            else if (post_type == 2)
+            {
+                media = new VideoMedia(path);
+            }
+            Post newPost = new Post(Guid.NewGuid(), description, owner_user_id, mentionedUsers, commented_post_id, original_post_id, media, post_type, location_id, DateTime.Now);
 
-		public bool removePost(Guid post_id)
-		{
-			if (repository.removePostFromDB(post_id))
-			{
-				return true;
-			}
+            if (repository.addPostToDB(newPost))
+            {
+                if (mentionedUsers.Count > 0)
+                {
+                    mentionedUsers.ForEach(user =>
+                    {
+                        addMentionToPost(newPost.id, user);
+                    });
+                }
+                return true;
+            }
+            return false;
+        }
 
-			return false;
-		}
+        public bool removePost(Guid post_id)
+        {
+            if (repository.removePostFromDB(post_id))
+            {
+                return true;
+            }
 
-		public bool updateDescription(Guid post_id,String newDescription)
-		{
-			if (repository.updatePostDescription(post_id, newDescription))
-			{
-				return true;
-			}
-			return false;
-		}
+            return false;
+        }
 
-		public bool updateLocation(Guid post_id,String newLocationID)
-		{
-			if (repository.updatePostLocation(post_id, newLocationID))
-			{
-				return true;
-			}
-			return false;
-		}
-		public bool addReactionToPost(Guid postID, Guid userID, int reactionType)
-		{
-			if (repository.addReactionToPost(postID, userID, reactionType))
-			{
-				return true;
-			}
-			return false;
-		}
+        public bool updateDescription(Guid post_id, String newDescription)
+        {
+            if (repository.updatePostDescription(post_id, newDescription))
+            {
+                return true;
+            }
+            return false;
+        }
 
-		public bool addMentionToPost(Guid postID, Guid userID)
-		{
-			if (repository.addMentionToPost(postID, userID))
-			{
-				return true;
-			}
-			return false;
-		}
+        public bool updateLocation(Guid post_id, String newLocationID)
+        {
+            if (repository.updatePostLocation(post_id, newLocationID))
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool addReactionToPost(Guid postID, Guid userID, int reactionType)
+        {
+            if (repository.addReactionToPost(postID, userID, reactionType))
+            {
+                return true;
+            }
+            return false;
+        }
 
-		public bool removeReactionToPost(Guid postID, Guid userID)
-		{
-			if (repository.removeReactionToPost(postID, userID))
-			{
-				return true;
-			}
-			return false;
-		}	
-		public List<Post> getAllPosts() { 
-			return repository.getAllPosts();
-		}
+        public bool addMentionToPost(Guid postID, Guid userID)
+        {
+            if (repository.addMentionToPost(postID, userID))
+            {
+                return true;
+            }
+            return false;
+        }
 
-		public Post getPostById(Guid postId)
-		{
-			return repository.getPostById(postId);
-		}
+        public bool removeReactionToPost(Guid postID, Guid userID)
+        {
+            if (repository.removeReactionToPost(postID, userID))
+            {
+                return true;
+            }
+            return false;
+        }
+        public List<Post> getAllPosts()
+        {
+            return repository.getAllPosts();
+        }
 
-		public List<Post> getAllPostsFromLocation(String location_id) {
-			return repository.getAllPostsFromLocation(location_id);
-		}
+        public Post getPostById(Guid postId)
+        {
+            return repository.getPostById(postId);
+        }
 
-		public int getPostLikeCount(Guid postID)
-		{
-			return repository.getPostLikeCount(postID);
-		}
+        public List<Post> getAllPostsFromLocation(String location_id)
+        {
+            return repository.getAllPostsFromLocation(location_id);
+        }
 
-}
+        public int getPostLikeCount(Guid postID)
+        {
+            return repository.getPostLikeCount(postID);
+        }
+
+    }
 }

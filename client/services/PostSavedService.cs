@@ -8,31 +8,38 @@ using client.repositories;
 
 namespace client.services
 {
-    internal class PostSavedService
+    internal interface IPostSavedService
     {
-        PostSavedRepository postSavedRepository;
+        bool addPostSaved(PostSaved postSaved);
+        List<PostSaved> getPostSavedList();
+        bool removePostSaved(PostSaved postSaved);
+    }
 
-        public PostSavedService(PostSavedRepository _postSavedRepository)
+    internal class PostSavedService : IPostSavedService
+    {
+        IPostSavedRepository postSavedRepository;
+
+        public PostSavedService(IPostSavedRepository _postSavedRepository)
         {
             postSavedRepository = _postSavedRepository;
         }
 
         public bool addPostSaved(PostSaved postSaved)
         {
-            
+
             return postSavedRepository.addPostSavedtoDB(postSaved);
         }
 
         public bool removePostSaved(PostSaved postSaved)
         {
-          
+
             return postSavedRepository.removePostSavedFromDB(postSaved);
 
         }
 
         public List<PostSaved> getPostSavedList()
         {
-            return postSavedRepository.getAll(); 
+            return postSavedRepository.getAll();
         }
     }
 }

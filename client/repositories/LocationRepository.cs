@@ -17,7 +17,13 @@ using client.modules;
 
 namespace client.repositories
 {
-    internal class LocationRepository
+    internal interface ILocationRepository
+    {
+        Task<Location> GetLocationDetails(string locationId);
+        Task<List<Location>> SearchLocations(string query);
+    }
+
+    internal class LocationRepository : ILocationRepository
     {
         private String _googlePlacesAPIKey;
         private String _searchLocationsURL;

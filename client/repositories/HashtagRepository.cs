@@ -13,7 +13,18 @@ using System.Windows.Media;
 
 namespace client.repositories
 {
-    internal class HashtagRepository
+    internal interface IHashtagRepository
+    {
+        bool addHashtag(Hashtag hashtag);
+        bool addHashtagPost(string postId, string hashtagId);
+        List<Post> getAllPosts(string hashtagId);
+        bool removeHashtag(string id);
+        bool removePostFromHashtag(string postId, string hashtagId);
+        Hashtag searchHashtag(string name);
+        bool searchPostHashtagPair(string postId, string hashtagId);
+    }
+
+    internal class HashtagRepository : IHashtagRepository
     {
         private DatabaseConnection dbInstance;
         private SqlConnection conn;
@@ -120,7 +131,7 @@ namespace client.repositories
                     return false;
                 }
             }
-		}
+        }
 
         public List<Post> getAllPosts(String hashtagId)
         {

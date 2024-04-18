@@ -12,7 +12,14 @@ using System.Windows;
 
 namespace client.repositories
 {
-    internal class PostSavedRepository
+    internal interface IPostSavedRepository
+    {
+        bool addPostSavedtoDB(PostSaved postSaved);
+        List<PostSaved> getAll();
+        bool removePostSavedFromDB(PostSaved postSaved);
+    }
+
+    internal class PostSavedRepository : IPostSavedRepository
     {
 
 
@@ -21,7 +28,7 @@ namespace client.repositories
 
         public PostSavedRepository()
         {
-            
+
             dbInstance = DatabaseConnection.Instance;
             conn = dbInstance.GetConnection();
         }
@@ -53,7 +60,7 @@ namespace client.repositories
                 command.Parameters.AddWithValue("@save_id", postSaved.save_id);
                 command.Parameters.AddWithValue("@post_id", postSaved.post_id);
                 command.Parameters.AddWithValue("@user_id", postSaved.user_id);
-                
+
 
                 try
                 {
@@ -94,7 +101,7 @@ namespace client.repositories
             return true;
         }
 
-       public List<PostSaved> getAll()
+        public List<PostSaved> getAll()
         {
             List<PostSaved> postSavedList = new List<PostSaved>();
             string query = "SELECT * FROM post_saves";

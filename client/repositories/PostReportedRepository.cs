@@ -13,7 +13,14 @@ using System.Windows;
 
 namespace client.repositories
 {
-    internal class PostReportedRepository
+    internal interface IPostReportedRepository
+    {
+        bool addReportedPostToDB(PostReported postReported);
+        List<PostReported> getAll();
+        bool removeReportedPostFromDB(PostReported postReported);
+    }
+
+    internal class PostReportedRepository : IPostReportedRepository
     {
         private DatabaseConnection dbInstance;
         private SqlConnection conn;
@@ -44,7 +51,7 @@ namespace client.repositories
                     return false;
                 }
             }
-            
+
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 // Add parameters to the command to prevent SQL injection
@@ -53,7 +60,7 @@ namespace client.repositories
                 command.Parameters.AddWithValue("@description", postReported.description);
                 command.Parameters.AddWithValue("@post_id", postReported.post_id);
                 command.Parameters.AddWithValue("@reporter_id", postReported.reporter_id);
-     
+
 
                 try
                 {
@@ -105,8 +112,8 @@ namespace client.repositories
                 {
                     while (reader.Read())
                     {
-                        PostReported postReported = new PostReported(Guid.Parse(reader.GetString(0)),reader.GetString(1),reader.GetString(2), Guid.Parse(reader.GetString(3)), Guid.Parse(reader.GetString(4)));
-                                                                                                                                                 
+                        PostReported postReported = new PostReported(Guid.Parse(reader.GetString(0)), reader.GetString(1), reader.GetString(2), Guid.Parse(reader.GetString(3)), Guid.Parse(reader.GetString(4)));
+
                         postReportedList.Add(postReported);
                     }
                 }
