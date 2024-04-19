@@ -12,7 +12,14 @@ using System.Windows;
 
 namespace client.repositories
 {
-    internal class PostArchivedRepository
+    internal interface IPostArchivedRepository
+    {
+        bool addPostArchivedToDB(PostArchived postArchived);
+        List<PostArchived> getAll();
+        bool removePostArchivedFromDB(PostArchived postArchived);
+    }
+
+    internal class PostArchivedRepository : IPostArchivedRepository
     {
 
 
@@ -46,14 +53,14 @@ namespace client.repositories
                     return false;
                 }
             }
-            
+
 
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 // Add parameters to the command to prevent SQL injection
                 command.Parameters.AddWithValue("@archive_id", postArchived.archive_id);
                 command.Parameters.AddWithValue("@post_id", postArchived.post_id);
-                
+
                 try
                 {
                     int rowsAffected = command.ExecuteNonQuery();
@@ -67,7 +74,7 @@ namespace client.repositories
             }
             conn.Close();
             return true;
-        }   
+        }
 
         public bool removePostArchivedFromDB(PostArchived postArchived)
         {

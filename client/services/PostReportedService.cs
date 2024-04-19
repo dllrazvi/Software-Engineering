@@ -7,25 +7,32 @@ using client.models;
 using client.repositories;
 namespace client.services
 {
-    internal class PostReportedService
+    internal interface IPostReportedService
     {
-        PostReportedRepository postReportedRepository;
+        bool addPostReported(PostReported postReported);
+        List<PostReported> getPostReportedList();
+        bool removePostReported(PostReported postReported);
+    }
 
-        public PostReportedService(PostReportedRepository _postReportedRepository)
+    internal class PostReportedService : IPostReportedService
+    {
+        IPostReportedRepository postReportedRepository;
+
+        public PostReportedService(IPostReportedRepository _postReportedRepository)
         {
             postReportedRepository = _postReportedRepository;
-        }   
+        }
 
         public bool addPostReported(PostReported postReported)
         {
-          
-            
+
+
             return postReportedRepository.addReportedPostToDB(postReported);
         }
 
         public bool removePostReported(PostReported postReported)
         {
-         
+
 
             return postReportedRepository.removeReportedPostFromDB(postReported);
 
@@ -33,8 +40,8 @@ namespace client.services
 
         public List<PostReported> getPostReportedList()
         {
-            return postReportedRepository.getAll(); 
+            return postReportedRepository.getAll();
         }
-        
+
     }
 }

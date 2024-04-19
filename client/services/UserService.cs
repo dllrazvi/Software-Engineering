@@ -9,11 +9,17 @@ using client.models;
 
 namespace client.services
 {
-    class UserService
+    interface IUserService
     {
-        private UserRepository _userRepository;
+        List<User> getAllUsers();
+        User getUserById(Guid id);
+    }
 
-        public UserService(UserRepository userRepository)
+    class UserService : IUserService
+    {
+        private IUserRepository _userRepository;
+
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

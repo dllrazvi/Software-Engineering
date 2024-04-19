@@ -6,17 +6,17 @@ namespace client.services
 {
     class MainService
     {
-        public LocationService LocationService { get; }
+        public ILocationService LocationService { get; }
 
-        public PostArchivedService PostArchivedService { get; }
+        public IPostArchivedService PostArchivedService { get; }
 
-        public PostReportedService PostReportedService { get; }
+        public IPostReportedService PostReportedService { get; }
 
-        public PostSavedService PostSavedService { get; }
+        public IPostSavedService PostSavedService { get; }
 
-        public PostsService PostsService { get; }
+        public IPostsService PostsService { get; }
 
-        public UserService UserService { get; }
+        public IUserService UserService { get; }
 
         public List<Post> getAllPosts()
         {

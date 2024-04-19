@@ -8,7 +8,13 @@ using Microsoft.Data.SqlClient;
 
 namespace client.repositories
 {
-    class UserRepository
+    interface IUserRepository
+    {
+        List<User> getAllUsers();
+        User getUserById(Guid id);
+    }
+
+    class UserRepository : IUserRepository
     {
         private DatabaseConnection dbInstance;
         private SqlConnection conn;
@@ -49,32 +55,32 @@ namespace client.repositories
 
         public List<User> getAllUsers()
         {
-			string query = "SELECT * FROM users";
-			List<User> users = new List<User>();
-			conn.Open();
-			using (SqlCommand command = new SqlCommand(query, conn))
-			{
+            string query = "SELECT * FROM users";
+            List<User> users = new List<User>();
+            conn.Open();
+            using (SqlCommand command = new SqlCommand(query, conn))
+            {
 
 
 
-				using (SqlDataReader reader = command.ExecuteReader())
-				{
-                    
-					while (reader.Read())
-					{
-						Guid userId = new Guid(reader.GetString(0));
-						String username = reader.GetString(1);
-						String profilePicturePath = reader.GetString(2);
-						
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
 
-						users.Add( new User(userId, username, profilePicturePath));
-					}
-				}
-			}
+                    while (reader.Read())
+                    {
+                        Guid userId = new Guid(reader.GetString(0));
+                        String username = reader.GetString(1);
+                        String profilePicturePath = reader.GetString(2);
 
-			conn.Close();
 
-			return users;
-		}
+                        users.Add(new User(userId, username, profilePicturePath));
+                    }
+                }
+            }
+
+            conn.Close();
+
+            return users;
+        }
     }
 }

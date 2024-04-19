@@ -9,11 +9,21 @@ using System.Threading.Tasks;
 
 namespace client.services
 {
-    internal class HashtagService
+    internal interface IHashtagService
     {
-        private HashtagRepository hashtagRepository;
+        bool addHashtag(string name);
+        bool addPostToHashtag(Guid postId, string hashtagName);
+        List<Post> getAllPostsFromHashtag(string name);
+        bool removeHashtag(string id);
+        bool removePostFromHashtag(Guid postId, string hashtagName);
+        Hashtag searchHashtag(string name);
+    }
 
-        public HashtagService(HashtagRepository hashtagRepository)
+    internal class HashtagService : IHashtagService
+    {
+        private IHashtagRepository hashtagRepository;
+
+        public HashtagService(IHashtagRepository hashtagRepository)
         {
             this.hashtagRepository = hashtagRepository;
         }
