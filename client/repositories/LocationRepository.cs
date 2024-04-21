@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net.Http;
 using System.Threading.Tasks;
-
-using Newtonsoft.Json;
 using client.models;
-using System.Security.Policy;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections;
-using System.Windows.Input;
-using System.Diagnostics.Eventing.Reader;
-using client.modules;
 
 namespace client.repositories
 {
@@ -25,33 +16,16 @@ namespace client.repositories
 
     internal class LocationRepository : ILocationRepository
     {
-        private String _googlePlacesAPIKey;
-        private String _searchLocationsURL;
-        private String _getPlaceDetailsURL;
         private readonly HttpClient _httpClient;
-        private readonly ConfigurationModule _configuration;
 
         public LocationRepository()
         {
-            _configuration = new ConfigurationModule();
-
-            _googlePlacesAPIKey = _configuration.getGOOGLE_PLACES_API_KEY();
-            _searchLocationsURL =
-                "https://maps.googleapis.com/maps/api/place/textsearch/json?key="
-                + _googlePlacesAPIKey
-                + "&query=";
-            _getPlaceDetailsURL =
-                "https://maps.googleapis.com/maps/api/place/details/json?key="
-                + _googlePlacesAPIKey
-                + "&fields=name" + "%2C" + "geometry" + "%2C" + "place_id" // add "%2C" between fields
-                + "&place_id="
-                ;
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<Location>> SearchLocations(String query)
+        public async Task<List<Location>> SearchLocations(string query)
         {
-            String requestURL = _searchLocationsURL + query;
+            string requestURL = $"https://example.com/search?query={query}";
 
             try
             {
@@ -59,15 +33,14 @@ namespace client.repositories
 
                 if (response.IsSuccessStatusCode)
                 {
-                    String jsonResponse = await response.Content.ReadAsStringAsync();
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
 
                     List<Location> locations = ParseSearchLocationsJsonResponse(jsonResponse);
-                    /*await Task.Delay(1000);*/
                     return locations;
                 }
                 else
                 {
-                    // maybe throw an exception here
+                    // Handle unsuccessful response
                     return new List<Location>();
                 }
             }
@@ -77,7 +50,8 @@ namespace client.repositories
                 return null;
             }
         }
-        static List<Location> ParseSearchLocationsJsonResponse(String jsonResponse)
+
+        static List<Location> ParseSearchLocationsJsonResponse(string jsonResponse)
         {
             List<Location> locations = new List<Location>();
 
@@ -89,8 +63,8 @@ namespace client.repositories
                 Location location = new Location(
                     result["place_id"].ToString(),
                     result["name"].ToString(),
-                    (Double)result["geometry"]["location"]["lat"],
-                    (Double)result["geometry"]["location"]["lng"]
+                    (double)result["geometry"]["location"]["lat"],
+                    (double)result["geometry"]["location"]["lng"]
                 );
                 locations.Add(location);
             }
@@ -98,9 +72,9 @@ namespace client.repositories
             return locations;
         }
 
-        public async Task<Location> GetLocationDetails(String locationId)
+        public async Task<Location> GetLocationDetails(string locationId)
         {
-            String requestURL = _getPlaceDetailsURL + locationId;
+            string requestURL = $"https://example.com/details?id={locationId}";
 
             try
             {
@@ -108,14 +82,12 @@ namespace client.repositories
 
                 if (response.IsSuccessStatusCode)
                 {
-                    String jsonResponse = await response.Content.ReadAsStringAsync();
-
-                    /*await Task.Delay(1000);*/
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
                     return ParseGetLocationDetailsJsonResponse(jsonResponse);
                 }
                 else
                 {
-                    // maybe throw an exception here
+                    // Handle unsuccessful response
                     return null;
                 }
             }
@@ -126,15 +98,14 @@ namespace client.repositories
             }
         }
 
-        static Location ParseGetLocationDetailsJsonResponse(String jsonResponse)
+        static Location ParseGetLocationDetailsJsonResponse(string jsonResponse)
         {
-
             JObject root = JObject.Parse(jsonResponse);
 
-            String locationId = root["result"]["place_id"].ToString();
-            String locationName = root["result"]["name"].ToString();
-            double locationLatitude = (Double)root["result"]["geometry"]["location"]["lat"];
-            double locationLongitude = (Double)root["result"]["geometry"]["location"]["lng"];
+            string locationId = root["result"]["place_id"].ToString();
+            string locationName = root["result"]["name"].ToString();
+            double locationLatitude = (double)root["result"]["geometry"]["location"]["lat"];
+            double locationLongitude = (double)root["result"]["geometry"]["location"]["lng"];
 
             return new Location(locationId, locationName, locationLatitude, locationLongitude);
         }
