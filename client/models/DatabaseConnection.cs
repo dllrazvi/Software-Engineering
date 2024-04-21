@@ -16,8 +16,7 @@ public sealed class DatabaseConnection
 
 	private DatabaseConnection()
 	{
-		builder.ConnectionString = $"Data Source=tcp:{Environment.GetEnvironmentVariable("DB_IP")},1433; User ID={Environment.GetEnvironmentVariable("DB_USER")};" +
-			$" Password= {Environment.GetEnvironmentVariable("DB_PASS")};Initial Catalog = {Environment.GetEnvironmentVariable("DB_SCHEMA")};TrustServerCertificate=True;MultipleActiveResultSets=True";
+		builder.ConnectionString = $"Data Source=DESKTOP-69V3Q5U\\SQLEXPRESS;Initial Catalog = blank-feed;TrustServerCertificate=True;MultipleActiveResultSets=True; Trusted_Connection=True";
 		// Initialize your database connection here
 		connection = new SqlConnection(builder.ConnectionString);
 		
