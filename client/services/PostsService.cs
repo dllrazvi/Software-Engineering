@@ -45,7 +45,9 @@ namespace client.services
             }
             Post newPost = new Post(Guid.NewGuid(), description, owner_user_id, mentionedUsers, commented_post_id, original_post_id, media, post_type, location_id, DateTime.Now);
 
-            if (repository.addPostToDB(newPost))
+            var repositoryStatus = repository.addPostToDB(newPost);
+
+            if (repositoryStatus)
             {
                 if (mentionedUsers.Count > 0)
                 {
