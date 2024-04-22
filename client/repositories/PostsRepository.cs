@@ -168,7 +168,7 @@ namespace client.repositories
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 command.Parameters.AddWithValue("@post_id", postID);
-                command.Parameters.AddWithValue("@post_id", userID);
+                command.Parameters.AddWithValue("@user_id", userID);
 
                 try
                 {
