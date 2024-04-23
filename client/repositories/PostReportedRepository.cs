@@ -37,45 +37,46 @@ namespace client.repositories
             string queryCheck = "SELECT COUNT(*) FROM post_reports WHERE report_id = @report_id";
             string query = "INSERT INTO post_reports (report_id,reason,description,post_id,reporter_id) Values (@report_id,@reason,@description,@post_id,@reporter_id)";
             conn.Open();
-            using (SqlCommand commandCheck = new SqlCommand(queryCheck, conn))
+            try
             {
-                // Add parameters to the command to prevent SQL injection
-                commandCheck.Parameters.AddWithValue("@report_id", postReported.report_id);
-
-                int existingRecordsCount = (int)commandCheck.ExecuteScalar();
-
-                if (existingRecordsCount > 0)
+                using (SqlCommand commandCheck = new SqlCommand(queryCheck, conn))
                 {
-                    MessageBox.Show("Error: The report_id already exists in the database.");
-                    conn.Close();
-                    return false;
+                    // Add parameters to the command to prevent SQL injection
+                    commandCheck.Parameters.AddWithValue("@report_id", postReported.report_id);
+
+                    int existingRecordsCount = (int)commandCheck.ExecuteScalar();
+
+                    if (existingRecordsCount > 0)
+                    {
+                        MessageBox.Show("Error: The report_id already exists in the database.");
+                        conn.Close();
+                        return false;
+                    }
                 }
-            }
 
-            using (SqlCommand command = new SqlCommand(query, conn))
-            {
-                // Add parameters to the command to prevent SQL injection
-                command.Parameters.AddWithValue("@report_id", postReported.report_id);
-                command.Parameters.AddWithValue("@reason", postReported.reason);
-                command.Parameters.AddWithValue("@description", postReported.description);
-                command.Parameters.AddWithValue("@post_id", postReported.post_id);
-                command.Parameters.AddWithValue("@reporter_id", postReported.reporter_id);
-
-
-                try
+                using (SqlCommand command = new SqlCommand(query, conn))
                 {
+                    // Add parameters to the command to prevent SQL injection
+                    command.Parameters.AddWithValue("@report_id", postReported.report_id);
+                    command.Parameters.AddWithValue("@reason", postReported.reason);
+                    command.Parameters.AddWithValue("@description", postReported.description);
+                    command.Parameters.AddWithValue("@post_id", postReported.post_id);
+                    command.Parameters.AddWithValue("@reporter_id", postReported.reporter_id);
+
                     int rowsAffected = command.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                    conn.Close();
-                    return false;
-                }
+                conn.Close();
+                return true;
             }
-            conn.Close();
-            return true;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+                conn.Close();
+                return false;
+            }
         }
+
+
 
         public bool removeReportedPostFromDB(PostReported postReported)
         {

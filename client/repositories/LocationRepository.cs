@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using client.models;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace client.repositories
@@ -18,9 +17,9 @@ namespace client.repositories
     {
         private readonly HttpClient _httpClient;
 
-        public LocationRepository()
+        public LocationRepository(HttpClient httpClient)
         {
-            _httpClient = new HttpClient();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         public async Task<List<Location>> SearchLocations(string query)
@@ -34,7 +33,6 @@ namespace client.repositories
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
-
                     List<Location> locations = ParseSearchLocationsJsonResponse(jsonResponse);
                     return locations;
                 }
