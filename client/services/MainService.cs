@@ -1,5 +1,6 @@
 ﻿using client.models;
 using client.repositories;
+using System.Net.Http;
 using System.Windows.Forms;
 
 namespace client.services
@@ -135,13 +136,20 @@ namespace client.services
 
         public MainService()
         {
+            // Create an instance of HttpClient
+            HttpClient httpClient = new HttpClient();
+
+            // Pass the HttpClient instance to the LocationRepository constructor
+            LocationRepository locationRepository = new LocationRepository(httpClient);
+
+            // Instantiate other repositories and services
             PostArchivedRepository postArchivedRepository = new PostArchivedRepository();
             PostSavedRepository postSavedRepository = new PostSavedRepository();
             PostReportedRepository postReportedRepository = new PostReportedRepository();
-            LocationRepository locationRepository = new LocationRepository();
             PostsRepository postsRepository = new PostsRepository();
             UserRepository userRepository = new UserRepository();
 
+            // Instantiate other services with their respective repositories
             LocationService = new LocationService(locationRepository);
             PostArchivedService = new PostArchivedService(postArchivedRepository);
             PostReportedService = new PostReportedService(postReportedRepository);
@@ -149,5 +157,6 @@ namespace client.services
             PostsService = new PostsService(postsRepository);
             UserService = new UserService(userRepository);
         }
+
     }
 }
