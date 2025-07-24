@@ -7,6 +7,13 @@ namespace client.services
 {
     class MainService
     {
+        private ILocationService object1;
+        private IPostArchivedService object2;
+        private IPostReportedService object3;
+        private IPostSavedService object4;
+        private IPostsService object5;
+        private IUserService object6;
+
         public ILocationService LocationService { get; }
 
         public IPostArchivedService PostArchivedService { get; }
@@ -158,5 +165,14 @@ namespace client.services
             UserService = new UserService(userRepository);
         }
 
+        public MainService(ILocationService object1, IPostArchivedService object2, IPostReportedService object3, IPostSavedService object4, IPostsService object5, IUserService object6)
+        {
+            this.object1 = object1;
+            this.object2 = object2;
+            this.object3 = object3;
+            this.object4 = object4;
+            this.object5 = object5;
+            this.object6 = object6;
+        }
     }
 }

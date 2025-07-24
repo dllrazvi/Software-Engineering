@@ -12,7 +12,7 @@ namespace client.modules
 
         private String[] allowedFileExtensions;
         private readonly long maxSizeInBytes;
-        public ValidationModule()
+        public ValidationModule(DatabaseConnection @object)
         {
             dbInstance = DatabaseConnection.Instance;
             conn = dbInstance.GetConnection();
@@ -34,6 +34,10 @@ namespace client.modules
                 }
             }
             conn.Close();
+        }
+
+        public ValidationModule()
+        {
         }
 
         public void ValidateFile(String filePath)

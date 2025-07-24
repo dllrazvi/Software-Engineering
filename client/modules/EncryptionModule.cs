@@ -14,7 +14,7 @@ namespace client.modules
         private byte[] encryptionKey;
 
         private readonly ConfigurationModule configurationModule;
-        public EncryptionModule() 
+        public EncryptionModule(ConfigurationModule @object) 
         {
             this.configurationModule = new ConfigurationModule();
             this.encryptionKey = getEncryptionKey();

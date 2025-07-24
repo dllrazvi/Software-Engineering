@@ -42,6 +42,11 @@ namespace client.models
             createdDate = _createdDate;
 
 		}
+
+        public Post()
+        {
+        }
+
         public override string ToString()
         {
             return $"Post : {id}\n{description}\n{ownerUserID}\n{mentionedUsers}\n{commentedPostID}\n{originalPostID}\n{media}\n{postType}\n{locationID}\n{createdDate}";
